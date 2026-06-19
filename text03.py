@@ -13,13 +13,13 @@ try:
         return pd.to_numeric(series, errors="coerce").fillna(0)
 
     # 1. 读取用户画像
-    print("【1/4】加载 user_profile_table.csv")
+    print("1/4 加载 user_profile_table.csv")
     df_user = pd.read_csv("user_profile_table.csv")
     df_user["constellation"] = df_user["constellation"].astype("category").cat.codes
     # 不再使用Sex列避免KeyError，跳过男女聚合
 
     # 2. 用户每日申赎流水
-    print("【2/4】加载 user_balance_table.csv")
+    print("2/4 加载 user_balance_table.csv")
     df_balance = pd.read_csv("user_balance_table.csv")
     df_balance["report_date"] = pd.to_datetime(df_balance["report_date"], format="%Y%m%d")
     amount_cols = [
@@ -32,7 +32,7 @@ try:
         df_balance[c] = clean_numeric(df_balance[c])
 
     # 3. 收益率表
-    print("【3/4】加载 mfd_day_share_interest.csv")
+    print("3/4 加载 mfd_day_share_interest.csv")
     df_yield = pd.read_csv("mfd_day_share_interest.csv")
     df_yield["mfd_date"] = pd.to_datetime(df_yield["mfd_date"], format="%Y%m%d")
     df_yield.rename(columns={"mfd_date": "report_date"}, inplace=True)
@@ -40,7 +40,7 @@ try:
     df_yield["mfd_7daily_yield"] = clean_numeric(df_yield["mfd_7daily_yield"])
 
     # 4. Shibor利率表
-    print("【4/4】加载 mfd_bank_shibor.csv")
+    print("4/4 加载 mfd_bank_shibor.csv")
     df_shibor = pd.read_csv("mfd_bank_shibor.csv")
     df_shibor["mfd_date"] = pd.to_datetime(df_shibor["mfd_date"], format="%Y%m%d")
     df_shibor.rename(columns={"mfd_date": "report_date"}, inplace=True)
